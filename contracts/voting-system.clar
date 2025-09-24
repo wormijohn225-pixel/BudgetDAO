@@ -117,7 +117,7 @@
           { member: tx-sender }
           {
             stake: initial-stake,
-            joined-at: block-height,
+            joined-at: stacks-block-height,
             voting-power: voting-power,
             proposals-created: u0,
             votes-cast: u0,
@@ -174,7 +174,7 @@
   (let
     (
       (proposal-id (var-get next-governance-proposal-id))
-      (voting-ends (+ block-height voting-period-blocks))
+      (voting-ends (+ stacks-block-height voting-period-blocks))
     )
     (asserts! (not (var-get governance-paused)) err-unauthorized)
     
@@ -195,7 +195,7 @@
             target-contract: target-contract,
             function-name: function-name,
             parameters: parameters,
-            created-at: block-height,
+            created-at: stacks-block-height,
             voting-ends-at: voting-ends,
             votes-for: u0,
             votes-against: u0,
@@ -238,7 +238,7 @@
           proposal
           (begin
             (asserts! (is-eq (get status proposal) "voting") err-voting-ended)
-            (asserts! (<= block-height (get voting-ends-at proposal)) err-voting-ended)
+            (asserts! (<= stacks-block-height (get voting-ends-at proposal)) err-voting-ended)
             
             ;; Check if already voted
             (asserts! (is-none (map-get? proposal-votes { proposal-id: proposal-id, voter: tx-sender })) err-already-voted)
@@ -256,7 +256,7 @@
                 {
                   vote: vote,
                   voting-power: voting-power,
-                  cast-at: block-height
+                  cast-at: stacks-block-height
                 }
               )
               
@@ -295,7 +295,7 @@
       proposal
       (begin
         (asserts! (is-eq (get status proposal) "voting") err-unauthorized)
-        (asserts! (> block-height (get voting-ends-at proposal)) err-voting-ended)
+        (asserts! (> stacks-block-height (get voting-ends-at proposal)) err-voting-ended)
         
         (let
           (
