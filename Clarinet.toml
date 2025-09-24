@@ -5,10 +5,6 @@ authors = []
 telemetry = true
 cache_dir = './.cache'
 requirements = []
-[contracts.budget-tracker]
-path = 'contracts/budget-tracker.clar'
-clarity_version = 3
-epoch = '3.2'
 
 [contracts.voting-system]
 path = 'contracts/voting-system.clar'
